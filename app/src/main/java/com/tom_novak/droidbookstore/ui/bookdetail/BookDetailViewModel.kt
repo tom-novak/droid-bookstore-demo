@@ -2,14 +2,12 @@ package com.tom_novak.droidbookstore.ui.bookdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class BookDetailState(
     val loadingBook: Boolean = false,
@@ -19,9 +17,8 @@ data class BookDetailState(
     val description: String? = null,
 )
 
-@HiltViewModel
-class BookDetailViewModel @Inject constructor(
-    //private val repository: IBookRepository,
+class BookDetailViewModel constructor(
+    //private val bookRepository: BookRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BookDetailState())

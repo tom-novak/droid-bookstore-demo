@@ -27,29 +27,33 @@ class BooksMockRemoteDataSource : BookDataSource {
         )
     }
 
-    override suspend fun search(query: String, page: Int?): BookSearchPageRemote {
-        return BookSearchPageRemote(
-            page = page ?: 1,
-            total = fakeBooks.size,
-            books = fakeBooks.subList(0, 40)
+    override suspend fun search(query: String, page: Int?): Result<BookSearchPageRemote> {
+        return Result.success(
+            BookSearchPageRemote(
+                page = page ?: 1,
+                total = fakeBooks.size,
+                books = fakeBooks.subList(0, 40)
+            )
         )
     }
 
-    override suspend fun newBooks(): BookSearchPageRemote {
-        return BookSearchPageRemote(
-            page = 1,
-            total = 200,
-            books = fakeBooks.subList(0, 200),
+    override suspend fun newBooks(): Result<BookSearchPageRemote> {
+        return Result.success(
+            BookSearchPageRemote(
+                page = 1,
+                total = 200,
+                books = fakeBooks.subList(0, 200),
+            )
         )
     }
 
-    override suspend fun getBookDetail(bookId: String): BookRemote {
+    override suspend fun getBookDetail(bookId: String): Result<BookRemote> {
         val book = fakeBooks.find { bookRemote ->
             bookRemote.isbn10.equals(bookId) || bookRemote.isbn13.equals(
                 bookId
             )
         }
-        return book ?: BookRemote(error = "Book not found")
+        return Result.success(book ?: BookRemote(error = "Book not found"))
     }
 
 }
