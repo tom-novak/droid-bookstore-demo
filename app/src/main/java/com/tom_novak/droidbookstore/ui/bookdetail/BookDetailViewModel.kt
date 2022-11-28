@@ -2,7 +2,6 @@ package com.tom_novak.droidbookstore.ui.bookdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tom_novak.droidbookstore.data.IBookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
