@@ -1,6 +1,7 @@
 package com.tom_novak.droidbookstore.data.remote.model
 
 data class BookRemote(
+    val error: String? = null,
     val title: String? = null,
     val subtitle: String? = null,
     val authors: String? = null,
