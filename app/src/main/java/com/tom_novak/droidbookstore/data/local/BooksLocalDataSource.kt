@@ -5,7 +5,7 @@ import com.tom_novak.droidbookstore.data.remote.model.BookRemote
 import com.tom_novak.droidbookstore.data.remote.model.BookSearchPageRemote
 
 class BooksLocalDataSource : BookDataSource {
-    override suspend fun search(query: String, page: Int?): Result<BookSearchPageRemote> {
+    override suspend fun search(query: String, page: Int): Result<BookSearchPageRemote> {
         TODO("Not yet implemented")
     }
 

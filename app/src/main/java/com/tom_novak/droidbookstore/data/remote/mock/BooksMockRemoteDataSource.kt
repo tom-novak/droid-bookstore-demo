@@ -27,10 +27,10 @@ class BooksMockRemoteDataSource : BookDataSource {
         )
     }
 
-    override suspend fun search(query: String, page: Int?): Result<BookSearchPageRemote> {
+    override suspend fun search(query: String, page: Int): Result<BookSearchPageRemote> {
         return Result.success(
             BookSearchPageRemote(
-                page = page ?: 1,
+                page = page,
                 total = fakeBooks.size,
                 books = fakeBooks.subList(0, 40)
             )
