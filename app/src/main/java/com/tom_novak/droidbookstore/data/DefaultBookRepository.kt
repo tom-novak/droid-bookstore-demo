@@ -11,7 +11,7 @@ class DefaultBookRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : BookRepository {
 
-    override suspend fun search(query: String, page: Int?): Result<BookSearchPageRemote> {
+    override suspend fun search(query: String, page: Int): Result<BookSearchPageRemote> {
         // TODO(implement remote api call with store data in local cache)
         return booksRemoteDataSource.search(query, page)
     }
