@@ -44,4 +44,8 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="title_activity_about">About</string>
+
+    <string name="book_detail">Book detail</string>
+    <string name="new_books">New books</string>
+    <string name="book_image_content_description">Fake image</string>
 </resources>
