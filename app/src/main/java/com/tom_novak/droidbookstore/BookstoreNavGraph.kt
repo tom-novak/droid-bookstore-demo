@@ -29,19 +29,21 @@ fun BookstoreNavGraph(
     val currentRoute = currentNavBackStackEntry?.destination?.route ?: startDestination
 
     NavHost(
-        navController = navController,
-        startDestination = startDestination,
-        modifier = modifier
+        navController = navController, startDestination = startDestination, modifier = modifier
     ) {
         composable(
             BookstoreNavigation.BookstoreDemoDestinations.SEARCH_ROUTE
         ) { entry ->
-            BookSearchScreen(onDetailClick = {})
+            BookSearchScreen(onDetailClick = { book ->
+                navActions.navigateToBookDetail(
+                    bookId = book.isbn10 ?: book.isbn13 ?: "0"
+                )
+            })
         }
         composable(
             BookstoreNavigation.BookstoreDemoDestinations.BOOK_DETAIL_ROUTE
         ) { entry ->
-            BookDetailScreen()
+            BookDetailScreen(onBack = { navController.popBackStack() })
         }
     }
 }
