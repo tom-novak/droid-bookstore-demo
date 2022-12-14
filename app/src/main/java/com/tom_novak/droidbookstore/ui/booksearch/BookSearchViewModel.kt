@@ -15,9 +15,10 @@ import javax.inject.Inject
 
 data class BookSearchState(
     val page: Int = 0,
-    val query: String? = null,
+    val query: String = "",
     val loadingBooks: Boolean = false,
-    val books: List<BookRemote> = emptyList(),
+    val newBooks: List<BookRemote> = emptyList(),
+    val searchResult: List<BookRemote>? = null,
     val error: Boolean = false,
 )
 
@@ -29,36 +30,56 @@ class BookSearchViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(BookSearchState())
     val uiState: StateFlow<BookSearchState> = _uiState.asStateFlow()
 
-    private var searchBookJob: Job? = null
+    private var loadBooksJob: Job? = null
 
     init {
         new()
     }
 
     fun new() {
-        viewModelScope.launch {
+        _uiState.update { it.copy(loadingBooks = true) }
+        loadBooksJob?.cancel()
+        loadBooksJob = viewModelScope.launch {
             bookRepository.newBooks().onSuccess { result ->
                 _uiState.update {
                     it.copy(
-                        books = result.books
+                        newBooks = result.books,
+                        loadingBooks = false,
+                        error = false,
                     )
                 }
             }.onFailure { failure ->
-
+                _uiState.update { it.copy(loadingBooks = false) }
             }
 
         }
     }
 
     fun search(query: String) {
-        searchBookJob?.cancel()
-        searchBookJob = viewModelScope.launch {
-            // TODO
+        if (query.length > 2) {
             _uiState.update {
                 it.copy(
-                    // TODO
+                    loadingBooks = true,
+                    query = query,
+                    searchResult = null,
                 )
             }
+            loadBooksJob?.cancel()
+            loadBooksJob = viewModelScope.launch {
+                bookRepository.search(query = query, page = 0).onSuccess { result ->
+                    _uiState.update {
+                        it.copy(
+                            searchResult = result.books,
+                            loadingBooks = false,
+                            error = false,
+                        )
+                    }
+                }.onFailure {
+                    _uiState.update { it.copy(loadingBooks = false) }
+                }
+            }
+        } else {
+            _uiState.update { it.copy(query = query) }
         }
     }
 

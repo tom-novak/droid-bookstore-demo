@@ -1,0 +1,43 @@
+package com.tom_novak.droidbookstore.ui.composable
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.tom_novak.droidbookstore.data.remote.model.BookRemote
+import com.tom_novak.droidbookstore.ui.view.BookGridTile
+
+@Composable
+fun BooksGridSection(
+    modifier: Modifier = Modifier,
+    label: String? = null,
+    books: List<BookRemote> = emptyList(),
+    onDetailClick: (BookRemote) -> Unit = {},
+) {
+    ContentSection(
+        modifier = modifier, label = label
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 128.dp),
+            contentPadding = PaddingValues(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(items = books, key = {
+                it.isbn10 ?: it.isbn13 ?: 0 // TODO compute unique item id
+            }) { book ->
+                BookGridTile(imgSrc = book.image,
+                    title = book.title,
+                    authors = book.authors,
+                    price = book.price,
+                    onClick = {
+                        onDetailClick(book)
+                    })
+            }
+        }
+    }
+}
