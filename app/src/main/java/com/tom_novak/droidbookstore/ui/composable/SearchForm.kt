@@ -1,8 +1,10 @@
 package com.tom_novak.droidbookstore.ui.composable
 
+import android.content.res.Configuration
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,8 +22,10 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tom_novak.droidbookstore.R
+import com.tom_novak.droidbookstore.ui.theme.DroidBookStoreTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -60,5 +64,23 @@ fun SearchForm(
             )
         }
     }
+}
 
+@Preview(
+    name = "Light Mode",
+    showBackground = true,
+)
+@Preview(
+    name = "Dark Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+)
+@Composable
+fun PreviewSearchForm() {
+    DroidBookStoreTheme() {
+        SearchForm(
+            modifier = Modifier.padding(8.dp),
+            value = "test query",
+        )
+    }
 }

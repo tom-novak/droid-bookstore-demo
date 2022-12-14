@@ -60,7 +60,5 @@ fun BookSearchScreen(
                     viewModel.search(query)
                 })
         }
-
-
     }
 }
