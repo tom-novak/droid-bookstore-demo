@@ -49,7 +49,8 @@ fun BookGridTile(
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = title,
-                maxLines = 1,
+                minLines = 2,
+                maxLines = 2,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
