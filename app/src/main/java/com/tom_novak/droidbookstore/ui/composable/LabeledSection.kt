@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.tom_novak.droidbookstore.ui.theme.DroidBookStoreTheme
 
 @Composable
-fun ContentSection(
+fun LabeledSection(
     modifier: Modifier = Modifier,
     label: String? = null,
     content: @Composable () -> Unit,
@@ -34,9 +34,9 @@ fun ContentSection(
     showBackground = true,
 )
 @Composable
-fun PreviewContentSection() {
+fun PreviewLabeledSection() {
     DroidBookStoreTheme() {
-        ContentSection(
+        LabeledSection(
             label = "Test label",
         ) {
             Box(
@@ -62,9 +62,9 @@ fun PreviewContentSection() {
     showBackground = true,
 )
 @Composable
-fun PreviewContentSectionWithoutLabel() {
+fun PreviewLabeledSectionWithoutLabel() {
     DroidBookStoreTheme {
-        ContentSection {
+        LabeledSection {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -15,7 +15,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.tom_novak.droidbookstore.R
 import com.tom_novak.droidbookstore.data.remote.model.BookRemote
 import com.tom_novak.droidbookstore.ui.composable.BooksGridSection
+import com.tom_novak.droidbookstore.ui.composable.PlaceholderGridSection
 import com.tom_novak.droidbookstore.ui.composable.SearchForm
+import com.valentinilk.shimmer.shimmer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,23 +40,38 @@ fun BookSearchScreen(
                 textAlign = TextAlign.Center,
             )
 
-            if (uiState.searchResult != null) {
-                BooksGridSection(modifier = Modifier.weight(1f),
-                    label = stringResource(id = R.string.search_results),
-                    books = uiState.searchResult!!,
-                    onDetailClick = { book ->
-                        onDetailClick(book)
+            when {
+                uiState.loadingBooks -> {
+                    PlaceholderGridSection(
+                        modifier = Modifier
+                            .weight(1f)
+                            .shimmer()
+                    )
+                }
+                uiState.searchResult != null -> {
+                    uiState.searchResult!!.fold(onSuccess = { books ->
+                        BooksGridSection(modifier = Modifier.weight(1f),
+                            label = stringResource(id = R.string.search_results),
+                            books = books,
+                            onDetailClick = { book ->
+                                onDetailClick(book)
+                            })
+                    }, onFailure = { failure -> })
+                }
+                else -> {
+                    uiState.newBooks.fold(onFailure = { failure -> }, onSuccess = { books ->
+                        BooksGridSection(modifier = Modifier.weight(1f),
+                            label = stringResource(id = R.string.new_books),
+                            books = books,
+                            onDetailClick = { book ->
+                                onDetailClick(book)
+                            })
                     })
-            } else {
-                BooksGridSection(modifier = Modifier.weight(1f),
-                    label = stringResource(id = R.string.new_books),
-                    books = uiState.newBooks,
-                    onDetailClick = { book ->
-                        onDetailClick(book)
-                    })
+                }
             }
 
-            SearchForm(modifier = Modifier.padding(8.dp),
+            SearchForm(
+                modifier = Modifier.padding(8.dp),
                 value = uiState.query,
                 onSubmit = { query ->
                     viewModel.search(query)
