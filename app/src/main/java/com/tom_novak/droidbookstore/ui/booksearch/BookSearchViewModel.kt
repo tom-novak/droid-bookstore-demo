@@ -17,9 +17,8 @@ data class BookSearchState(
     val page: Int = 0,
     val query: String = "",
     val loadingBooks: Boolean = false,
-    val newBooks: List<BookRemote> = emptyList(),
-    val searchResult: List<BookRemote>? = null,
-    val error: Boolean = false,
+    val newBooks: Result<List<BookRemote>> = Result.success(emptyList()),
+    val searchResult: Result<List<BookRemote>>? = null,
 )
 
 @HiltViewModel
@@ -43,13 +42,16 @@ class BookSearchViewModel @Inject constructor(
             bookRepository.newBooks().onSuccess { result ->
                 _uiState.update {
                     it.copy(
-                        newBooks = result.books,
+                        newBooks = Result.success(result.books),
                         loadingBooks = false,
-                        error = false,
                     )
                 }
             }.onFailure { failure ->
-                _uiState.update { it.copy(loadingBooks = false) }
+                _uiState.update {
+                    it.copy(
+                        loadingBooks = false, newBooks = Result.failure(failure)
+                    )
+                }
             }
 
         }
@@ -69,13 +71,16 @@ class BookSearchViewModel @Inject constructor(
                 bookRepository.search(query = query, page = 0).onSuccess { result ->
                     _uiState.update {
                         it.copy(
-                            searchResult = result.books,
+                            searchResult = Result.success(result.books),
                             loadingBooks = false,
-                            error = false,
                         )
                     }
-                }.onFailure {
-                    _uiState.update { it.copy(loadingBooks = false) }
+                }.onFailure { failure ->
+                    _uiState.update {
+                        it.copy(
+                            loadingBooks = false, searchResult = Result.failure(failure)
+                        )
+                    }
                 }
             }
         } else {

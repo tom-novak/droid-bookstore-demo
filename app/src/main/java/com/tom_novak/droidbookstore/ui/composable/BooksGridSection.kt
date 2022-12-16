@@ -22,7 +22,7 @@ fun BooksGridSection(
     books: List<BookRemote> = emptyList(),
     onDetailClick: (BookRemote) -> Unit = {},
 ) {
-    ContentSection(
+    LabeledSection(
         modifier = modifier, label = label
     ) {
         LazyVerticalGrid(
