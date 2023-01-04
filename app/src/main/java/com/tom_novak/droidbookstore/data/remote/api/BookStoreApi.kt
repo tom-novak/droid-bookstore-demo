@@ -11,11 +11,8 @@ interface BookStoreApi {
         val BASE_URL = "https://api.itbook.store/1.0/"
     }
 
-    @GET("search/{query}")
-    suspend fun search(@Path("query") query: String): BookSearchPageRemote
-
     @GET("search/{query}/{page}")
-    suspend fun search(@Path("query") query: String, @Path("page") page: Int): BookSearchPageRemote
+    suspend fun search(@Path("query") query: String, @Path("page") page: Int?): BookSearchPageRemote
 
     @GET("new")
     suspend fun new(): BookSearchPageRemote

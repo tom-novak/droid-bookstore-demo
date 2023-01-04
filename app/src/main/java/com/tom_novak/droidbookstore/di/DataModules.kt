@@ -8,9 +8,11 @@ import com.tom_novak.droidbookstore.data.DefaultBookRepository
 import com.tom_novak.droidbookstore.data.local.BooksLocalDataSource
 import com.tom_novak.droidbookstore.data.remote.BooksRemoteDataSource
 import com.tom_novak.droidbookstore.data.remote.api.BookStoreApi
+import com.tom_novak.droidbookstore.ui.booksearch.BookSearchPagerManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import retrofit2.Retrofit
@@ -42,6 +44,15 @@ object RepositoryModule {
             localDataSource,
             ioDispatcher,
         )
+    }
+}
+
+@Module
+@InstallIn(ViewModelComponent::class)
+object PagerModule {
+    @Provides
+    fun provideBookSearchPagerManager(bookRepository: BookRepository): BookSearchPagerManager {
+        return BookSearchPagerManager(bookRepository)
     }
 }
 

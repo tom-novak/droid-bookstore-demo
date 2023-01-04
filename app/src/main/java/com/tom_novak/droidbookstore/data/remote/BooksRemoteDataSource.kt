@@ -6,7 +6,7 @@ import com.tom_novak.droidbookstore.data.remote.model.BookRemote
 import com.tom_novak.droidbookstore.data.remote.model.BookSearchPageRemote
 
 class BooksRemoteDataSource(private val api: BookStoreApi) : BookDataSource {
-    override suspend fun search(query: String, page: Int): Result<BookSearchPageRemote> {
+    override suspend fun search(query: String, page: Int?): Result<BookSearchPageRemote> {
         return try {
             Result.success(api.search(query, page))
         } catch (e: Exception) {
