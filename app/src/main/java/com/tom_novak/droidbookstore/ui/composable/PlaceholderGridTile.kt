@@ -26,7 +26,7 @@ fun PlaceholderGridTile(
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (showImage) Box(modifier = Modifier.padding()) {
+            if (showImage) Box(modifier = Modifier.padding(8.dp)) {
                 Box(
                     modifier = Modifier
                         .size(width = 72.dp, height = 90.dp)

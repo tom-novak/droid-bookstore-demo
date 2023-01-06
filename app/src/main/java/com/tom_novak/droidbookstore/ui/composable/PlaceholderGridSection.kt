@@ -32,10 +32,8 @@ fun PlaceholderGridSection(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(6) { book ->
-                PlaceholderGridTile(
-                    showAuthors = false,
-                )
+            items(10) {
+                PlaceholderGridTile()
             }
         }
     }
