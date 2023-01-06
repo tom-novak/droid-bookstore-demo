@@ -1,5 +1,7 @@
 package com.tom_novak.droidbookstore.data.remote.model
 
+import java.util.concurrent.atomic.AtomicInteger
+
 data class BookRemote(
     val error: String? = null,
     val title: String? = null,
@@ -16,4 +18,10 @@ data class BookRemote(
     val image: String? = null,
     val url: String? = null,
     val pdf: Map<String, String> = emptyMap(),
-)
+) {
+    companion object {
+        private var instance: AtomicInteger = AtomicInteger(1)
+    }
+
+    val id = instance.incrementAndGet()
+}

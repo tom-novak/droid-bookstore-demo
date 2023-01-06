@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.tom_novak.droidbookstore.R
 import com.tom_novak.droidbookstore.data.remote.model.BookRemote
 import com.tom_novak.droidbookstore.ui.composable.BooksGridSection
+import com.tom_novak.droidbookstore.ui.composable.BooksGridSectionPageable
 import com.tom_novak.droidbookstore.ui.composable.PlaceholderGridSection
 import com.tom_novak.droidbookstore.ui.composable.SearchForm
 import com.valentinilk.shimmer.shimmer
@@ -41,22 +42,21 @@ fun BookSearchScreen(
             )
 
             when {
-                uiState.loadingBooks -> {
+                uiState.loadingNewBooks -> {
                     PlaceholderGridSection(
                         modifier = Modifier
                             .weight(1f)
                             .shimmer()
                     )
                 }
-                uiState.searchResult != null -> {
-                    uiState.searchResult!!.fold(onSuccess = { books ->
-                        BooksGridSection(modifier = Modifier.weight(1f),
-                            label = stringResource(id = R.string.search_results),
-                            books = books,
-                            onDetailClick = { book ->
-                                onDetailClick(book)
-                            })
-                    }, onFailure = { failure -> })
+                uiState.items != null -> {
+                    BooksGridSectionPageable(modifier = Modifier.weight(1f),
+                        label = stringResource(id = R.string.search_results),
+                        books = uiState.items!!,
+                        onDetailClick = { book ->
+                            onDetailClick(book)
+                        })
+
                 }
                 else -> {
                     uiState.newBooks.fold(onFailure = { failure -> }, onSuccess = { books ->
